@@ -34,7 +34,7 @@ var server = http.createServer(app);
  * Connect to database. Listen on provided port, on all network interfaces.
  */
 
-db.connect("mongodb://localhost:27017/testbase", function (err) {
+db.connect("mongodb://localhost:27017/maindb", function (err) {
   if(err) { return console.log(err); }
   server.listen(port);
   server.on('error', onError);

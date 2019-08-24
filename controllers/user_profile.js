@@ -6,7 +6,9 @@ exports.createUser = function (req, res) {
         id: uuid(),
         token: req.body.token,
         secret: req.body.secret,
-        social: req.body.social
+        social: req.body.social,
+	debug: req.body.debug,
+	email: req.body.email
     };
 
     Users.create(user, function (err, result) {
