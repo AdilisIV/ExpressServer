@@ -8,4 +8,7 @@ router.post('/auth', controller.createUser);
 /* GET users listing. */
 router.get('/', controller.list);
 
+
+router.post('/auth/facebook', controller.auth_facebook);
+
 module.exports = router;
