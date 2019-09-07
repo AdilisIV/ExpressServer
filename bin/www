@@ -21,13 +21,10 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-// var server = http.createServer(app);
 
-var privateKey = fs.readFileSync('/etc/apache2/ssl/apache.crt');
-var certificate = fs.readFileSync('/etc/apache2/ssl/apache.key');
 var options = {
-  key: privateKey,
-  cert: certificate
+  key: fs.readFileSync('/etc/apache2/ssl/key.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/apache2/ssl/server.crt', 'utf8')
 };
 var server = https.createServer(options);
 
