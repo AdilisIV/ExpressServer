@@ -23,8 +23,8 @@ app.set('port', port);
 
 // var server = http.createServer(app);
 
-var privateKey = fs.readFileSync('/etc/letsencrypt/live/ilyafedoroff.ru/privkey.pem');
-var certificate = fs.readFileSync('/etc/letsencrypt/live/ilyafedoroff.ru/fullchain.pem');
+var privateKey = fs.readFileSync('/etc/apache2/ssl/apache.crt');
+var certificate = fs.readFileSync('/etc/apache2/ssl/apache.key');
 var options = {
   key: privateKey,
   cert: certificate
