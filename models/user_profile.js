@@ -29,8 +29,8 @@ exports.list = function (callback) {
 exports.exchangeFBAccessToken = function(code, redirect_uri, callback) {
     // app.post('/auth/facebook', function(req, res) {
         var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
-        var accessTokenUrl = 'https://graph.facebook.com/v4.0/oauth/access_token';
-        var graphApiUrl = 'https://graph.facebook.com/v4.0/me?fields=' + fields.join(',');
+        var accessTokenUrl = 'https://graph.facebook.com/v2.12/oauth/access_token';
+        var graphApiUrl = 'https://graph.facebook.com/v2.12/me?fields=' + fields.join(',');
         var params = {
             code: code,
             client_id: config.FACEBOOK_CLIENTID,
@@ -43,7 +43,7 @@ exports.exchangeFBAccessToken = function(code, redirect_uri, callback) {
         request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
             console.log(accessToken);
             if (response.statusCode !== 200) {
-                return response.status(500).send({ message: accessToken.error.message });
+                response.status(500).send({ message: accessToken.error.message });
             }
 
             // Step 2. Retrieve profile information about the current user.
