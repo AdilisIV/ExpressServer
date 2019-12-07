@@ -25,8 +25,8 @@ app.set('port', port);
 // var server = http.createServer(app);
 
 var options = {
-  key: fs.readFileSync('/etc/apache2/ssl/apache.key', 'utf8'),
-  cert: fs.readFileSync('/etc/apache2/ssl/apache.pem', 'utf8')
+  key: fs.readFileSync('/Users/user/Documents/KEYS/cert-example/server.key', 'utf8'),
+  cert: fs.readFileSync('/Users/user/Documents/KEYS/cert-example/server.cert', 'utf8')
 };
 var server = https.createServer(options, app);
 
