@@ -1,8 +1,7 @@
 
 var ObjectID = require('mongodb').ObjectID;
 var db = require('../db');
-var app = require('../app')
-var config = require('../config/config')
+var app = require('../app');
 var request = require('request');
 var jwt = require('jwt-simple');
 
@@ -10,6 +9,7 @@ exports.create = function (user, callback) {
     db.get().collection('users').insert(
         user,
         function (err, result) {
+            console.log(err);
             callback(err, result);
         })
 };
@@ -19,6 +19,13 @@ exports.list = function (callback) {
         callback(err, users)
     })
 };
+
+exports.userByAuthID = function(service, id, callback) {
+    db.get().collection('users').findOne({ social: service, id: id }, function (err, user) {
+        callback(err, user)
+    })
+};
+
 
 /*
  |--------------------------------------------------------------------------

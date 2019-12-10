@@ -2,9 +2,6 @@ var Users = require('../models/user_profile');
 var uuid = require('uuid/v1');
 
 exports.createUser = function (req, res) {
-    // if (req.body.social === "fb") {
-    //     Users.exchangeFBAccessToken()
-
     var user = {
         id: uuid(),
         token: req.body.token,
@@ -23,42 +20,44 @@ exports.createUser = function (req, res) {
     })
 };
 
-exports.auth_facebook = function(req, res) {
-    Users.exchangeFBAccessToken(req.body.code, req.body.redirect_uri, function (err, profile) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500)
-        }
-        let user = {
-            id: uuid(),
-            code: req.body.code,
-            secret: req.body.secret,
-            social: req.body.social,
-            debug: req.body.debug,
-            email: profile.email,
-            first_name: profile.first_name,
-            last_name: profile.last_name,
-            picture: 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
-            link: profile.link
-        };
-
-        Users.create(user, function (err, result) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            res.send(user);
-        })
-    })
-};
-
 exports.list = function (req, res) {
     Users.list(function (err, users) {
         if(err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        console.log(users)
+        console.log(users);
         res.send(users);
+    })
+};
+
+exports.facebookUser = function (accessToken, refreshToken, profile, callback) {
+    Users.userByAuthID("fb", profile.id, function (err, user) {
+        if(err) {
+            throw err;
+            // return callback(err, null);
+        } else if(user) {
+            console.log("User already exists in database");
+            return callback(null, user);
+        } else {
+            let user = {
+                id: profile.id,
+                token: accessToken,
+                social: "fb",
+                email: profile.emails[0].value,
+                first_name: profile.name.givenName,
+                last_name: profile.name.familyName,
+                gender: profile.gender,
+                // user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+            };
+            console.log(user);
+            Users.create(user, function (err, newUser) {
+                if (err) {
+                    console.log(err);
+                    return callback(err, null)
+                }
+                return callback(null, newUser);
+            });
+        }
     })
 };

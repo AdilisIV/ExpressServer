@@ -5,9 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('auth:server');
-var https = require('https')
-var http = require('http');
+var https = require('https');
 var db = require('../db');
 const fs = require('fs');
 
@@ -36,12 +34,12 @@ var server = https.createServer(options, app);
  * Connect to database. Listen on provided port, on all network interfaces.
  */
 
-db.connect("mongodb://localhost:27017/maindb", function (err) {
+db.connect("mongodb://localhost:27017/nws-base", function (err) {
   if(err) { return console.log(err); }
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-});
+2});
 
 /**
  * Normalize a port into a number, string, or false.
