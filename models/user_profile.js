@@ -1,9 +1,8 @@
-
 var ObjectID = require('mongodb').ObjectID;
 var db = require('../db');
 var app = require('../app');
 var request = require('request');
-var jwt = require('jwt-simple');
+
 
 exports.create = function (user, callback) {
     db.get().collection('users').insert(

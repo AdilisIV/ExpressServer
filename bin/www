@@ -1,19 +1,16 @@
 #!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var https = require('https');
 var db = require('../db');
 const fs = require('fs');
+const config = require('../config/server.config');
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
 
 /**
@@ -34,7 +31,7 @@ var server = https.createServer(options, app);
  * Connect to database. Listen on provided port, on all network interfaces.
  */
 
-db.connect("mongodb://localhost:27017/nws-base", function (err) {
+db.connect(config.database, function (err) {
   if(err) { return console.log(err); }
   server.listen(port);
   server.on('error', onError);

@@ -34,9 +34,9 @@ exports.list = function (req, res) {
 exports.facebookUser = function (accessToken, refreshToken, profile, callback) {
     Users.userByAuthID("fb", profile.id, function (err, user) {
         if(err) {
-            throw err;
-            // return callback(err, null);
-        } else if(user) {
+            return callback(err, null);
+        }
+        if(user) {
             console.log("User already exists in database");
             return callback(null, user);
         } else {
@@ -48,7 +48,6 @@ exports.facebookUser = function (accessToken, refreshToken, profile, callback) {
                 first_name: profile.name.givenName,
                 last_name: profile.name.familyName,
                 gender: profile.gender,
-                // user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
             };
             console.log(user);
             Users.create(user, function (err, newUser) {

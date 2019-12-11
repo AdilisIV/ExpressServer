@@ -16,6 +16,8 @@ var app = express();
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -32,20 +34,6 @@ app.use('/auth', auth_router);
 
 
 
-// app.get('/auth/facebook',
-//     passport.authenticate('facebook', { scope: ['email'] })
-// );
-//
-// app.get('/auth/facebook/callback',
-//     passport.authenticate('facebook', {
-//         failureRedirect: '/'
-//     }),
-//     function(req, res) {
-//       // Successful authentication, redirect home.
-//       res.redirect('/profile');
-// });
-
-
 // Configure Passport authenticated session persistence.
 //
 passport.serializeUser(function(user, done) {
@@ -53,11 +41,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-    // cb(null, obj);
-    User.userByAuthID('fb', user.id, function (err, user) {
-        done(null, user);
-    })
+    console.log(user);
+    done(null, user);
+    // User.userByAuthID('fb', user.id, function (err, user) {
+    //     done(null, user);
+    // })
 });
+
 
 
 // catch 404 and forward to error handler
